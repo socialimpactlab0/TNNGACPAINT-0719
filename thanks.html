@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+  <title>報名完成</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --primary: #ff6b9d; --primary-dark: #e91e7a; --primary-light: #ffe4ef;
+      --secondary: #ffb347; --accent: #a8e6cf;
+      --bg: #fff5f8; --bg-alt: #fff0f5;
+      --bg-gradient: linear-gradient(135deg, #fff5f8 0%, #ffeef4 50%, #fff9fb 100%);
+      --card: #ffffff; --text: #4a3f4c; --text-muted: #8b7d8e;
+      --border: #ffd1e3; --border-dashed: #ffb6d3;
+      --shadow: 0 4px 20px rgba(255, 107, 157, 0.12);
+      --shadow-lg: 0 8px 30px rgba(255, 107, 157, 0.18);
+      --radius: 20px; --radius-lg: 28px; --waitlist-color: #f59e0b;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Nunito', 'Noto Sans TC', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--bg-gradient); background-attachment: fixed;
+      color: var(--text); line-height: 1.7; font-size: 15px;
+      min-height: 100vh; display: flex; flex-direction: column;
+      align-items: center; justify-content: center; padding: 40px 20px;
+    }
+    a { color: inherit; text-decoration: none; }
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+      padding: 14px 28px; font-size: 0.95rem; font-weight: 700; border-radius: 50px;
+      border: none; cursor: pointer; transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    .btn-primary {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+      color: white; box-shadow: 0 4px 15px rgba(255, 107, 157, 0.35);
+    }
+    .btn-primary:hover { transform: translateY(-3px) scale(1.02); box-shadow: 0 8px 25px rgba(255, 107, 157, 0.45); }
+    .btn-outline { background: var(--card); color: var(--primary); border: 2px dashed var(--primary); }
+    .btn-outline:hover { background: var(--primary-light); border-style: solid; }
+    .notice { border-radius: var(--radius); padding: 16px 20px; margin-bottom: 20px; text-align: left; }
+    .notice-green { background: linear-gradient(135deg, #ecfdf5 0%, #f0fdf4 100%); border: 2px dashed #86efac; }
+    .notice-yellow { background: #fef3c7; border: 2px dashed #fbbf24; }
+    .notice-title { font-size: 0.95rem; font-weight: 800; margin-bottom: 10px; display: flex; align-items: center; gap: 6px; }
+    .notice-green .notice-title { color: #16a34a; }
+    .notice-yellow .notice-title { color: #d97706; }
+    .notice ul { list-style: none; padding: 0; margin: 0; }
+    .notice li { font-size: 0.85rem; font-weight: 600; color: var(--text); margin-bottom: 6px; padding-left: 18px; position: relative; line-height: 1.6; }
+    .notice li::before { content: '•'; position: absolute; left: 4px; font-weight: 900; }
+    .notice-green li::before { color: #16a34a; }
+    .notice-yellow li::before { color: #d97706; }
+    .notice li:last-child { margin-bottom: 0; }
+
+    .thanks-container { max-width: 480px; width: 100%; }
+    .thanks-card {
+      background: var(--card); border: 3px dashed var(--border-dashed); border-radius: var(--radius);
+      padding: 32px 24px; box-shadow: var(--shadow-lg); text-align: center; margin-bottom: 20px;
+    }
+    .thanks-card.waitlist { border-color: var(--waitlist-color); }
+    .thanks-icon { font-size: 3.5rem; margin-bottom: 14px; animation: bounce 1s ease infinite; }
+    @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+    .thanks-card h1 { font-size: 1.5rem; font-weight: 800; color: var(--primary); margin-bottom: 6px; }
+    .thanks-card.waitlist h1 { color: var(--waitlist-color); }
+    .thanks-subtitle { color: var(--text-muted); font-size: 0.92rem; margin-bottom: 20px; }
+    .thanks-badge { display: inline-block; padding: 6px 18px; border-radius: 50px; font-size: 0.88rem; font-weight: 700; margin-bottom: 18px; }
+    .thanks-badge.confirmed { background: var(--primary-light); color: var(--primary-dark); }
+    .thanks-badge.waitlist { background: #fef3c7; color: #d97706; }
+    .rid-box { background: var(--bg); border: 2px dashed var(--border-dashed); border-radius: 16px; padding: 18px; margin-bottom: 20px; }
+    .rid-label { font-size: 0.78rem; color: var(--text-muted); margin-bottom: 6px; font-weight: 600; }
+    .rid-value { font-size: 1.05rem; font-weight: 800; color: var(--primary); word-break: break-all; margin-bottom: 10px; }
+    .thanks-card.waitlist .rid-value { color: var(--waitlist-color); }
+    .copy-btn {
+      display: inline-flex; align-items: center; gap: 6px; padding: 8px 18px;
+      background: var(--primary); color: white; border: none; border-radius: 50px;
+      font-size: 0.82rem; font-weight: 700; cursor: pointer; transition: all 0.3s;
+    }
+    .copy-btn:hover { background: var(--primary-dark); transform: translateY(-2px); }
+    .thanks-card.waitlist .copy-btn { background: var(--waitlist-color); }
+    .event-info { background: var(--bg); border: 2px dashed var(--border-dashed); border-radius: 16px; padding: 16px 18px; margin-bottom: 20px; text-align: left; }
+    .event-info-title { font-size: 0.85rem; font-weight: 800; color: var(--primary-dark); margin-bottom: 10px; text-align: center; }
+    .event-info-row { display: flex; align-items: center; gap: 8px; font-size: 0.82rem; color: var(--text); margin-bottom: 5px; font-weight: 600; }
+    .event-info-row:last-child { margin-bottom: 0; }
+    .buttons { display: flex; flex-direction: column; gap: 12px; }
+    .thanks-footer { text-align: center; color: var(--text-muted); font-size: 0.78rem; margin-top: 16px; }
+    @media (max-width: 480px) {
+      body { padding: 28px 16px; }
+      .thanks-card { padding: 24px 18px; }
+      .thanks-icon { font-size: 3rem; }
+      .thanks-card h1 { font-size: 1.3rem; }
+      .rid-value { font-size: 0.92rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 載入中 -->
+  <div id="loader" style="
+    position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: #fff5f8;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    z-index: 9999; transition: opacity 0.4s;">
+    <div style="font-size: 3rem; margin-bottom: 16px; animation: bounce 1s ease infinite;">🎨</div>
+    <div style="color: #e91e7a; font-weight: 700; font-size: 0.95rem;">載入中...</div>
+  </div>
+
+  <div class="thanks-container">
+    <div class="thanks-card" id="mainCard">
+      <div class="thanks-icon" id="icon">🎉</div>
+      <h1 id="title">報名成功！</h1>
+      <p class="thanks-subtitle" id="subtitle">感謝您的報名，期待活動當天見</p>
+      <div class="thanks-badge confirmed" id="statusBadge">已報名</div>
+
+      <div class="rid-box">
+        <div class="rid-label">您的報名序號</div>
+        <div class="rid-value" id="ridValue">載入中...</div>
+        <button class="copy-btn" id="copyBtn">📋 複製序號</button>
+      </div>
+
+      <div class="event-info" id="eventInfo">
+        <div class="event-info-title" id="eventInfoTitle">活動資訊</div>
+        <div class="event-info-row"><span>📅</span> <span id="infoDate"></span></div>
+        <div class="event-info-row"><span>⏰</span> <span id="infoCheckIn"></span></div>
+        <div class="event-info-row"><span>📍</span> <span id="infoVenue"></span></div>
+        <div class="event-info-row"><span>🎨</span> <span>畫材請自備（蠟筆、彩色筆、色鉛筆、水彩皆可）</span></div>
+      </div>
+
+      <div class="notice notice-green" id="confirmReminder">
+        <div class="notice-title">⚠️ 重要提醒：出席確認</div>
+        <ul>
+          <li><span id="noticeConfirmDate"></span> 會發送出席確認簡訊</li>
+          <li>請於 <span id="noticeDeadline"></span> 前回覆確認</li>
+          <li>逾時未回覆將視為取消，名額釋出給候補家庭</li>
+          <li>若臨時無法出席，請儘早通知，把機會讓給其他家庭</li>
+        </ul>
+      </div>
+
+      <div class="notice notice-yellow" id="waitlistNotice" style="display: none;">
+        <div class="notice-title">📋 候補說明</div>
+        <ul>
+          <li>您所選的組別名額已滿，目前為候補名單</li>
+          <li>活動前若有家長取消，將以簡訊通知候補家庭</li>
+          <li>届時先回覆先錄取，請保持手機暢通</li>
+        </ul>
+      </div>
+
+      <div class="notice notice-green" id="nextSteps" style="border-color: #86efac;">
+        <div class="notice-title" style="color: #16a34a;">📌 接下來你可以...</div>
+        <ul id="nextStepsList">
+          <li>截圖此頁或複製序號保存</li>
+          <li>留意 <span id="stepsConfirmDate"></span> 的確認簡訊，務必回覆</li>
+          <li>活動當天 08:30 前抵達報到</li>
+          <li>記得攜帶孩子的畫具</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="buttons">
+      <a href="index.html" class="btn btn-primary">🏠 返回首頁</a>
+      <a href="index.html#register" class="btn btn-outline">👶 再報名一位</a>
+    </div>
+
+    <div class="thanks-footer">
+      <p id="footerText">💕</p>
+    </div>
+  </div>
+
+  <script>
+  (function() {
+    'use strict';
+
+    // ★★★ 跟 index.html 同一個 URL ★★★
+    var GAS_URL = 'https://script.google.com/macros/s/AKfycbwqKpnXIKF4WnUND163KJ08VzwosekgN3h-9DrV_iDNjpDqLxi4vNantjMIouznQIc/exec';
+
+    // 讀取 URL 參數
+    var params = new URLSearchParams(window.location.search);
+    var rid = params.get('rid') || '無法取得序號';
+    var status = params.get('status') || '已報名';
+
+    var $ = function(id) { return document.getElementById(id); };
+
+    function hideLoader() {
+      var loader = $('loader');
+      if (loader) { loader.style.opacity = '0'; setTimeout(function() { loader.style.display = 'none'; }, 400); }
+    }
+
+    // 載入設定並填充頁面
+    fetch(GAS_URL + '?action=getConfig')
+      .then(function(r) { return r.json(); })
+      .then(function(cfg) {
+        // 填入活動資訊
+        $('infoDate').textContent = cfg.eventDate;
+        $('infoCheckIn').textContent = cfg.eventCheckIn;
+        $('infoVenue').textContent = cfg.eventVenue + '（' + cfg.eventAddress + '）';
+        $('noticeConfirmDate').textContent = cfg.confirmSendDate;
+        $('noticeDeadline').textContent = cfg.confirmDeadline;
+        $('stepsConfirmDate').textContent = cfg.confirmSendDate;
+        $('footerText').textContent = '💕 ' + cfg.eventName;
+        document.title = '報名完成｜' + cfg.eventName;
+        hideLoader();
+      })
+      .catch(function() {
+        // 設定載入失敗，仍顯示序號
+        hideLoader();
+      });
+
+    // 填入序號
+    $('ridValue').textContent = rid;
+
+    // 依狀態切換
+    if (status === '候補') {
+      $('mainCard').classList.add('waitlist');
+      $('icon').textContent = '📋';
+      $('title').textContent = '候補登記成功！';
+      $('subtitle').textContent = '若有名額釋出，將以簡訊通知您';
+      $('statusBadge').textContent = '候補中';
+      $('statusBadge').className = 'thanks-badge waitlist';
+      $('confirmReminder').style.display = 'none';
+      $('waitlistNotice').style.display = 'block';
+      $('eventInfoTitle').textContent = '活動資訊（若遞補成功）';
+      $('nextStepsList').innerHTML =
+        '<li>截圖此頁或複製序號保存</li>' +
+        '<li>請保持手機暢通，留意簡訊通知</li>' +
+        '<li>若收到遞補通知，請儘快回覆確認</li>' +
+        '<li>也歡迎為其他孩子再報名一位</li>';
+    }
+
+    // 複製序號
+    $('copyBtn').addEventListener('click', function() {
+      var btn = this;
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(rid).then(function() {
+          btn.innerHTML = '✅ 已複製！';
+          setTimeout(function() { btn.innerHTML = '📋 複製序號'; }, 2000);
+        });
+      } else {
+        var ta = document.createElement('textarea');
+        ta.value = rid; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); document.body.removeChild(ta);
+        btn.innerHTML = '✅ 已複製！';
+        setTimeout(function() { btn.innerHTML = '📋 複製序號'; }, 2000);
+      }
+    });
+
+    // 5 秒後強制隱藏 loader
+    setTimeout(function() {
+      var loader = $('loader');
+      if (loader && loader.style.display !== 'none') loader.style.display = 'none';
+    }, 5000);
+
+  })();
+  </script>
+</body>
+</html>
